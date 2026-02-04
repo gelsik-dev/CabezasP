@@ -1,0 +1,94 @@
+<head>
+<meta charset="UTF-8">
+<title>CabezasP</title>
+</head>
+<body>
+<h1>CabezasP</h1>
+<div>
+<label>Rango:</label>
+<select id="rango">
+<option value="Usu">Usu</option>
+<option value="Jup">Jup</option>
+<option value="Nep">Nep</option>
+<option value="Mer">Mer</option>
+<option value="Sat">Sat</option>
+<option value="YT">YT</option>
+<option value="Str">Str</option>
+<option value="Bui">Bui</option>
+<option value="Ayu">Ayu</option>
+<option value="Mod">Mod</option>
+<option value="Adm">Adm</option>
+<option value="Dev">Dev</option>
+<option value="Beta">Beta</option>
+</select>
+</div>
+<br>
+<div>
+<label>Nick:</label>
+<input type="text" id="nick" placeholder="Nick">
+</div>
+<br>
+<div>
+<button onclick="generar()">Guardar</button>
+<button onclick="abrirNameMC()">Abrir NameMC</button>
+</div>
+<hr>
+<h3>Copiar y pegar:</h3>
+<pre id="resultado"></pre>
+<script>
+    const formatos = {
+        "Usu":  "§8[§fUsu§8] §f(nick)",
+        "Jup":  "§8[§bJup§8] §b(nick)",
+        "Nep":  "§8[§9Nep§8] §9(nick)",
+        "Mer":  "§8[§2Mer§8] §2(nick)",
+        "Sat":  "§8[§5Sat§8] §5(nick)",
+        "YT":   "§8[§4Y§fT§8] §4(nick)",
+        "Str":  "§8[§dStr§8] §d(nick)",
+        "Bui":  "§8[§aBui§8] §a(nick)",
+        "Ayu":  "§8[§eAyu§8] §e(nick)",
+        "Mod":  "§8[§3Mod§8] §3(nick)",
+        "Adm":  "§8[§cAdm§8] §c(nick)",
+        "Dev":  "§8[§6Dev§8] §6(nick)",
+        "Beta": "§8[§aBeta§8] §a(nick)"
+    };
+
+    function generar() {
+        const rango = document.getElementById("rango").value;
+        const nick = document.getElementById("nick").value.trim();
+
+        if (!nick) {
+            document.getElementById("resultado").textContent = "Pon un nick primero.";
+            return;
+        }
+
+        const fecha = new Date();
+        const d = String(fecha.getDate()).padStart(2, "0");
+        const m = String(fecha.getMonth() + 1).padStart(2, "0");
+        const y = String(fecha.getFullYear()).slice(-2);
+        const fechaFinal = `${d}/${m}/${y}`;
+
+        const lineaRango = formatos[rango].replace("(nick)", nick);
+
+        const lineas = [
+            lineaRango,
+            "§e§l/p h §6§lCabezas§b§lPandora §f- §e§l/p h",
+            `§7Actualizado el §n${fechaFinal}`
+        ];
+
+        document.getElementById("resultado").textContent = lineas.join("\n");
+    }
+
+    function abrirNameMC() {
+        const nick = document.getElementById("nick").value.trim();
+        if (!nick) {
+            alert("Pon un nick primero para abrir NameMC");
+            return;
+        }
+        window.open(
+            "https://namemc.com/profile/" + encodeURIComponent(nick),
+            "_blank"
+        );
+    }
+</script>
+</body>
+</html>
