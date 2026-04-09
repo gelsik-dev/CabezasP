@@ -51,6 +51,6 @@ https://gelsik-dev.github.io/CabezasP/ (online)
 
 ---
 
-## icencia
+## Licencia
 
 MIT (uso libre, deja créditos o algo si lo vas hacer, que esto no se hace solo.)
