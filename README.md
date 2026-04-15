@@ -1,4 +1,4 @@
-# CabezasP (v1.3) – IIE Head Editor
+# CabezasP (v1.4) – IIE Head Editor
 
 > Editor rápido para generar y manipular **NBT de cabezas en Minecraft**.
 
