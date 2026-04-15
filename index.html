@@ -1,1 +1,201 @@
-<!doctypehtml><html lang=es><meta charset=UTF-8><title>CabezasP - /p h wth (IIE Head Editor) (v1.3)</title><style>body{font-family:Arial,sans-serif}.preview{border:1px solid #666;padding:6px;margin-top:5px;font-family:monospace;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;overflow-x:auto;background:rgba(0,0,0,.25)}</style><h1>CabezasP IIE Head Editor (v1.3)</h1><div><label>Rango:</label> <select id=rank><option value=Usu>Usu<option value=Jup>Jup<option value=Nep>Nep<option value=Mer>Mer<option value=Sat>Sat<option value=YT>YT<option value=Str>Str<option value=Bui>Bui<option value=Ayu>Ayu<option value=Mod>Mod<option value=Adm>Adm<option value=Dev>Dev<option value=Beta>Beta</select></div><br><div><label>Nick:</label> <input id=nick placeholder="Nick del jugador/a"></div><br><div><button onclick=openNameMC()>Abrir NameMC</button> <button onclick=openMinecraftUUID()>Abrir MinecraftUUID</button> <button onclick=openMineSkin()>Abrir MineSkin</button> </div><hr><h3>Vista previa:</h3><div id=preview class=preview>—</div><hr><h3>Copiar y pegar:</h3><pre id=result></pre><hr><h3>Convertidor B64</h3><div><button onclick='setMode("encode")'id=btnEncode>Data - B64</button> <button onclick='setMode("decode")'id=btnDecode>B64 - Data</button></div><br><textarea id=baseInput placeholder="Escribe aquí..."style=width:100%;height:80px></textarea><h4>Resultado:</h4><div id=baseResult class=preview>—</div><hr><h3>Formateador de /give</h3><textarea id=giveInput placeholder="Pega aquí el comando /give..."style=width:100%;height:80px></textarea><h4>Resultado JSON:</h4><div id=giveResult class=preview>—</div><hr><h3>Espacio libre para colocar NBT's</h3><textarea id=freeArea placeholder="Pega aquí los NBT's..."style=width:100%;height:100px></textarea><hr><h3>Plantillas NBT</h3><details><summary><strong>NBT Principal</strong></summary><div class=preview>{SkullOwner:{Id:"(Aquí va la UUID del jugador PREMIUM)",Properties:{textures:[{Value:"(Aquí va la data en Base64)"}]}},display:{Name:"(Nick, opcional, borrar este campo si es necesario)"}}</div></details><br><details><summary><strong>NBT Base64</strong></summary><div class=preview>Este es el texto Base64 decodificado del NBT:<br><br>{textures:{SKIN:{url:"(URL de la textura)"}}}<br><br>Después codificar con el convertidor B64 de arriba.</div></details><br><details><summary><strong>Datos importantes</strong></summary><div class=preview>Es importante saber la UUID del jugador para el correcto renderizado de la cabeza.<br>Usa la UUID que te provee NameMC o MineSkin.<br>Se añadirá información y correcciones en el futuro.<br><strong>- gelsik 07/04/26</strong></div></details><hr><h3>Versión alternativa en Scratch</h3><p>Creada por <strong>IBTA3005</strong>.<p><a href=https://sites.google.com/view/cabezaspandora/home target=_blank style=color:#1e90ff;text-decoration:underline>Versión alternativa</a><hr><p>Contacto por <strong>Discord</strong>: <strong>gelsik</strong></p><script>const formats={Usu:"§8[§fUsu§8] §f(nick)",Jup:"§8[§bJup§8] §b(nick)",Nep:"§8[§9Nep§8] §9(nick)",Mer:"§8[§2Mer§8] §2(nick)",Sat:"§8[§5Sat§8] §5(nick)",YT:"§8[§4Y§fT§8] §4(nick)",Str:"§8[§dStr§8] §d(nick)",Bui:"§8[§aBui§8] §a(nick)",Ayu:"§8[§eAyu§8] §e(nick)",Mod:"§8[§3Mod§8] §3(nick)",Adm:"§8[§cAdm§8] §c(nick)",Dev:"§8[§6Dev§8] §6(nick)",Beta:"§8[§aBeta§8] §a(nick)"},colors={0:"#000000",1:"#0000AA",2:"#00AA00",3:"#00AAAA",4:"#AA0000",5:"#AA00AA",6:"#FFAA00",7:"#AAAAAA",8:"#555555",9:"#5555FF",a:"#55FF55",b:"#55FFFF",c:"#FF5555",d:"#FF55FF",e:"#FFFF55",f:"#FFFFFF"};function generateText(){const e=document.getElementById("rank").value,t=document.getElementById("nick").value.trim();if(!t)return document.getElementById("result").textContent="",void(document.getElementById("preview").textContent="—");const n=new Date,o=`${String(n.getDate()).padStart(2,"0")}/${String(n.getMonth()+1).padStart(2,"0")}/${String(n.getFullYear()).slice(-2)}`,r=[formats[e].replace("(nick)",t),"§e§l/p h §6§lCabezas§b§lPandora §f- §e§l/p h §6§lwt§b§lh",`§7Actualizado el §n${o}`].join("\n");document.getElementById("result").textContent=r,document.getElementById("preview").innerHTML=renderPreview(r)}function renderPreview(e){let t="",n="#000",o=!1,r=!1,c=!1;for(let d=0;d<e.length;d++)if("§"===e[d]&&e[d+1]){const t=e[d+1].toLowerCase();d++,colors[t]?n=colors[t]:"l"===t?o=!0:"n"===t?r=!0:"o"===t?c=!0:"r"===t&&(n="#000",o=r=c=!1)}else"\n"===e[d]?t+="<br>":t+=`<span style="color:${n};font-weight:${o?"bold":"normal"};text-decoration:${r?"underline":"none"};font-style:${c?"italic":"normal"}">${e[d]}</span>`;return t}function openNameMC(){const e=document.getElementById("nick").value.trim();e?window.open("https://namemc.com/profile/"+encodeURIComponent(e),"_blank"):alert("Pon un nick primero para abrir NameMC")}function openMinecraftUUID(){const e=document.getElementById("nick").value.trim();e?window.open("https://minecraftuuid.com/player/"+encodeURIComponent(e),"_blank"):alert("Pon un nick o un UUID primero para abrir MinecraftUUID")}function openMineSkin(){window.open("https://mineskin.org/","_blank")}let baseMode="encode";function setMode(e){baseMode=e,document.getElementById("btnEncode").style.fontWeight="encode"===e?"bold":"normal",document.getElementById("btnDecode").style.fontWeight="decode"===e?"bold":"normal",handleBase64()}function encodeUTF8ToBase64(e){const t=(new TextEncoder).encode(e);let n="";return t.forEach((e=>n+=String.fromCharCode(e))),btoa(n)}function decodeBase64ToUTF8(e){const t=atob(e),n=Uint8Array.from(t,(e=>e.charCodeAt(0)));return(new TextDecoder).decode(n)}function handleBase64(){const e=document.getElementById("baseInput").value,t=document.getElementById("baseResult");if(e.trim())try{if("encode"===baseMode)t.textContent=encodeUTF8ToBase64(e);else{const n=/[A-Za-z0-9+/]{20,}={0,2}/g,o=e.replace(n,(e=>{try{return decodeBase64ToUTF8(e)}catch{return e}}));t.textContent=o}}catch{t.textContent="Error en la conversión"}else t.textContent="—"}function extractGiveJSON(){const e=document.getElementById("giveInput").value.trim(),t=document.getElementById("giveResult");if(!e)return void(t.textContent="—");const n=e.indexOf("{");if(-1===n)return void(t.textContent="No se encontró JSON");let o=e.substring(n);const r='"Generado por CabezasP 1.3"';o=o.includes("display:")?o.includes("Lore:[")?o.replace(/Lore:\s*\[/,(e=>e+r+",")):o.replace(/display:\s*\{/,(e=>e+"Lore:["+r+"],")):o.replace(/\}$/,",display:{Lore:["+r+"]}}"),t.textContent=o}document.getElementById("baseInput").addEventListener("input",handleBase64),setMode("encode"),document.getElementById("giveInput").addEventListener("input",extractGiveJSON),document.getElementById("nick").addEventListener("input",generateText),document.getElementById("rank").addEventListener("change",generateText)</script>
+<!doctypehtml>
+  <html lang=es>
+    <meta charset=UTF-8>
+    <title>CabezasP - /p h wth (IIE Head Editor) (v1.4)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif
+      }
+
+      .preview {
+        border: 1px solid #666;
+        padding: 6px;
+        margin-top: 5px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        overflow-x: auto;
+        background: rgba(0, 0, 0, .25)
+      }
+    </style>
+    <h1>CabezasP IIE Head Editor (v1.4)</h1>
+    <div><label>Rango:</label> <select id=rank>
+        <option value=Usu>Usu
+        <option value=Jup>Jup
+        <option value=Nep>Nep
+        <option value=Mer>Mer
+        <option value=Sat>Sat
+        <option value=YT>YT
+        <option value=Str>Str
+        <option value=Bui>Bui
+        <option value=Ayu>Ayu
+        <option value=Mod>Mod
+        <option value=Adm>Adm
+        <option value=Dev>Dev
+        <option value=Beta>Beta
+      </select></div><br>
+    <div><label>Nick:</label> <input id=nick placeholder="Nick del jugador/a"></div><br>
+    <div><button onclick=openNameMC()>Abrir NameMC</button> <button onclick=openMinecraftUUID()>Abrir MinecraftUUID</button> <button onclick=openMineSkin()>Abrir MineSkin</button> </div>
+    <hr>
+    <h3>Vista previa:</h3>
+    <div id=preview class=preview>—</div>
+    <hr>
+    <h3>Copiar y pegar:</h3>
+    <pre id=result></pre>
+    <hr>
+    <h3>Convertidor B64</h3>
+    <div><button onclick='setMode("encode")' id=btnEncode>Data - B64</button> <button onclick='setMode("decode")' id=btnDecode>B64 - Data</button></div><br><textarea id=baseInput placeholder="Escribe aquí..." style=width:100%;height:80px></textarea>
+    <h4>Resultado:</h4>
+    <div id=baseResult class=preview>—</div>
+    <hr>
+    <h3>Formateador de /give</h3><textarea id=giveInput placeholder="Pega aquí el comando /give..." style=width:100%;height:80px></textarea>
+    <h4>Resultado JSON:</h4>
+    <div id=giveResult class=preview>—</div>
+    <hr>
+    <h3>Espacio libre para colocar NBT's</h3><textarea id=freeArea placeholder="Pega aquí los NBT's..." style=width:100%;height:100px></textarea>
+    <hr>
+    <h3>Plantillas NBT</h3>
+    <details>
+      <summary><strong>NBT Principal</strong></summary>
+      <div class=preview>Esta es la plantilla principal del NBT, leer <strong>Datos importantes</strong> antes de continuar:<br><br>{SkullOwner:{Id:"(Aquí va la UUID del jugador PREMIUM)",Properties:{textures:[{Value:"(Aquí va la data en Base64)"}]}},display:{Name:"(Nick, opcional, borrar este campo si es necesario)"}}</div>
+    </details><br>
+    <details>
+      <summary><strong>NBT Base64</strong></summary>
+      <div class=preview>Este es el texto Base64 decodificado del NBT, leer <strong>Datos importantes</strong> antes de continuar:<br><br><strong>¡ATENCIÓN! SIEMPRE USAR EL PROTOCOLO HTTP, NO HTTPS ⚠️.</strong><br><br>{textures:{SKIN:{url:"(URL de la textura)"}}}<br><br>Si no funciona, usar este:<br><br>{"textures":{"SKIN":{"url":"(URL de la textura)"}}}<br><br>Después codificar con el convertidor B64 de arriba.</div>
+    </details><br>
+    <details>
+      <summary><strong>Datos importantes</strong></summary>
+      <div class=preview>Es importante saber la UUID del jugador para el correcto renderizado de la cabeza.<br>Usa la UUID que te provee NameMC o MineSkin.<br>Reemplazar placeholders por los datos reales.<br>Siempre usar protocolo HTTPS en todos los NBT's que hagas.<br>Se añadirá información y correcciones en el futuro.<br><strong>- gelsik 15/04/26</strong></div>
+    </details>
+    <hr>
+	<h4>Versión alternativa de CabezasP</h4>
+    <p>Creada por <strong>IBTA3005</strong>.</p>
+<p><strong><a style="color: #1e90ff; text-decoration: underline;" href="https://sites.google.com/view/cabezaspandora/home" target="_blank">Versión alternativa</a></strong></p>
+<hr />
+<p>GitHub de <strong>CabezasP</strong>: <strong><a style="color: #1e90ff; text-decoration: underline;" href="https://github.com/gelsik-dev/CabezasP" target="_blank">gelsik-dev/CabezasP</a></strong></p>
+      <hr>
+    <p>Contacto por <strong>Discord</strong>: <strong>gelsik</strong></p>
+    <script>
+      const formats = {
+          Usu: "§8[§fUsu§8] §f(nick)",
+          Jup: "§8[§bJup§8] §b(nick)",
+          Nep: "§8[§9Nep§8] §9(nick)",
+          Mer: "§8[§2Mer§8] §2(nick)",
+          Sat: "§8[§5Sat§8] §5(nick)",
+          YT: "§8[§4Y§fT§8] §4(nick)",
+          Str: "§8[§dStr§8] §d(nick)",
+          Bui: "§8[§aBui§8] §a(nick)",
+          Ayu: "§8[§eAyu§8] §e(nick)",
+          Mod: "§8[§3Mod§8] §3(nick)",
+          Adm: "§8[§cAdm§8] §c(nick)",
+          Dev: "§8[§6Dev§8] §6(nick)",
+          Beta: "§8[§aBeta§8] §a(nick)"
+        },
+        colors = {
+          0: "#000000",
+          1: "#0000AA",
+          2: "#00AA00",
+          3: "#00AAAA",
+          4: "#AA0000",
+          5: "#AA00AA",
+          6: "#FFAA00",
+          7: "#AAAAAA",
+          8: "#555555",
+          9: "#5555FF",
+          a: "#55FF55",
+          b: "#55FFFF",
+          c: "#FF5555",
+          d: "#FF55FF",
+          e: "#FFFF55",
+          f: "#FFFFFF"
+        };
+
+      function generateText() {
+        const e = document.getElementById("rank").value,
+          t = document.getElementById("nick").value.trim();
+        if (!t) return document.getElementById("result").textContent = "", void(document.getElementById("preview").textContent = "—");
+        const n = new Date,
+          o = `${String(n.getDate()).padStart(2,"0")}/${String(n.getMonth()+1).padStart(2,"0")}/${String(n.getFullYear()).slice(-2)}`,
+          r = [formats[e].replace("(nick)", t), "§e§l/p h §6§lCabezas§b§lPandora §f- §e§l/p h §6§lwt§b§lh", `§7Actualizado el §n${o}`].join("\n");
+        document.getElementById("result").textContent = r, document.getElementById("preview").innerHTML = renderPreview(r)
+      }
+
+      function renderPreview(e) {
+        let t = "",
+          n = "#000",
+          o = !1,
+          r = !1,
+          c = !1;
+        for (let d = 0; d < e.length; d++)
+          if ("§" === e[d] && e[d + 1]) {
+            const t = e[d + 1].toLowerCase();
+            d++, colors[t] ? n = colors[t] : "l" === t ? o = !0 : "n" === t ? r = !0 : "o" === t ? c = !0 : "r" === t && (n = "#000", o = r = c = !1)
+          } else "\n" === e[d] ? t += "<br>" : t += `<span style="color:${n};font-weight:${o?"bold":"normal"};text-decoration:${r?"underline":"none"};font-style:${c?"italic":"normal"}">${e[d]}</span>`;
+        return t
+      }
+
+      function openNameMC() {
+        const e = document.getElementById("nick").value.trim();
+        e ? window.open("https://namemc.com/profile/" + encodeURIComponent(e), "_blank") : alert("Pon un nick primero para abrir NameMC")
+      }
+
+      function openMinecraftUUID() {
+        const e = document.getElementById("nick").value.trim();
+        e ? window.open("https://minecraftuuid.com/player/" + encodeURIComponent(e), "_blank") : alert("Pon un nick o un UUID primero para abrir MinecraftUUID")
+      }
+
+      function openMineSkin() {
+        window.open("https://mineskin.org/", "_blank")
+      }
+      let baseMode = "encode";
+
+      function setMode(e) {
+        baseMode = e, document.getElementById("btnEncode").style.fontWeight = "encode" === e ? "bold" : "normal", document.getElementById("btnDecode").style.fontWeight = "decode" === e ? "bold" : "normal", handleBase64()
+      }
+
+      function encodeUTF8ToBase64(e) {
+        const t = (new TextEncoder).encode(e);
+        let n = "";
+        return t.forEach((e => n += String.fromCharCode(e))), btoa(n)
+      }
+
+      function decodeBase64ToUTF8(e) {
+        const t = atob(e),
+          n = Uint8Array.from(t, (e => e.charCodeAt(0)));
+        return (new TextDecoder).decode(n)
+      }
+
+      function handleBase64() {
+        const e = document.getElementById("baseInput").value,
+          t = document.getElementById("baseResult");
+        if (e.trim()) try {
+          if ("encode" === baseMode) t.textContent = encodeUTF8ToBase64(e);
+          else {
+            const n = /[A-Za-z0-9+/]{20,}={0,2}/g,
+              o = e.replace(n, (e => {
+                try {
+                  return decodeBase64ToUTF8(e)
+                } catch {
+                  return e
+                }
+              }));
+            t.textContent = o
+          }
+        } catch {
+          t.textContent = "Error en la conversión"
+        } else t.textContent = "—"
+      }
+
+      function extractGiveJSON() {
+        const e = document.getElementById("giveInput").value.trim(),
+          t = document.getElementById("giveResult");
+        if (!e) return void(t.textContent = "—");
+        const n = e.indexOf("{");
+        if (-1 === n) return void(t.textContent = "No se encontró JSON");
+        let o = e.substring(n);
+        const r = '"Generado por CabezasP 1.3"';
+        o = o.includes("display:") ? o.includes("Lore:[") ? o.replace(/Lore:\s*\[/, (e => e + r + ",")) : o.replace(/display:\s*\{/, (e => e + "Lore:[" + r + "],")) : o.replace(/\}$/, ",display:{Lore:[" + r + "]}}"), t.textContent = o
+      }
+      document.getElementById("baseInput").addEventListener("input", handleBase64), setMode("encode"), document.getElementById("giveInput").addEventListener("input", extractGiveJSON), document.getElementById("nick").addEventListener("input", generateText), document.getElementById("rank").addEventListener("change", generateText)
+    </script>
