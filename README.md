@@ -1,6 +1,6 @@
 <img src="https://github.com/gelsik-dev/CabezasP/blob/main/logo.png" style="width:150px; height:auto;">
 
-# CabezasP (v1.4) – IIE Head Editor
+# CabezasP (v1.5) – IIE Head Editor
 
 > Editor rápido para generar y manipular **NBT de cabezas en Minecraft**.
 
